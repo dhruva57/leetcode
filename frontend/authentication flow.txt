@@ -1,0 +1,311 @@
+This is a **must-know HLD question**. For a frontend-heavy role, they’re checking if you understand **security, state, and flow—not just login forms**.
+
+Let’s design a **scalable authentication flow (frontend-focused)** 👇
+
+---
+
+# 🧠 1. Clarify Requirements
+
+Start like:
+
+> “I’ll design an authentication system for a web app like Flipkart.”
+
+---
+
+## 🔹 Functional
+
+* Sign up / Login
+* Logout
+* Persist session
+* Protected routes
+* Token refresh
+
+---
+
+## 🔹 Non-Functional
+
+* Secure (no token leaks)
+* Scalable
+* Fast UX
+
+---
+
+# 🏗️ 2. High-Level Architecture
+
+```id="auth-arch"
+Frontend → BFF → Auth Service → DB
+```
+
+---
+
+## Components:
+
+* **Frontend (React)**
+* **BFF layer** (optional but recommended)
+* **Auth service** (handles login, tokens)
+* **Database** (users)
+
+---
+
+# 🔐 3. Authentication Strategy
+
+👉 Most common: **JWT-based authentication**
+
+---
+
+## 🔹 Tokens
+
+* **Access Token**
+
+  * Short-lived (e.g., 15 min)
+  * Used for API calls
+
+* **Refresh Token**
+
+  * Long-lived (e.g., days)
+  * Used to get new access tokens
+
+---
+
+# 🔄 4. Login Flow (Step-by-Step)
+
+```id="login-flow"
+1. User enters email/password
+2. Frontend → POST /login
+3. Backend validates credentials
+4. Returns:
+   - accessToken
+   - refreshToken
+5. Frontend stores tokens
+6. User is logged in
+```
+
+---
+
+## 🔹 Example API Response
+
+```json id="login-res"
+{
+  "accessToken": "abc123",
+  "refreshToken": "xyz456"
+}
+```
+
+---
+
+# 💾 5. Where to Store Tokens (VERY IMPORTANT)
+
+---
+
+## 🔹 Best Practice
+
+### ✅ Access Token
+
+* Store in **memory (React state)**
+
+---
+
+### ✅ Refresh Token
+
+* Store in **HTTP-only cookie**
+
+---
+
+## ❌ Avoid
+
+* localStorage (XSS risk)
+
+---
+
+## 🎯 Interview line
+
+> “I store access tokens in memory and refresh tokens in HTTP-only cookies to balance security and usability.”
+
+---
+
+# 🔁 6. API Request Flow
+
+---
+
+## 🔹 Every request
+
+```id="req"
+Authorization: Bearer <accessToken>
+```
+
+---
+
+## 🔹 If token expires
+
+```id="refresh-flow"
+1. API returns 401
+2. Frontend calls /refresh
+3. Backend validates refresh token
+4. New access token returned
+5. Retry original request
+```
+
+---
+
+# 🚪 7. Logout Flow
+
+```id="logout"
+1. Clear access token
+2. Invalidate refresh token (server)
+3. Redirect to login
+```
+
+---
+
+# 🧩 8. Protected Routes
+
+---
+
+## 🔹 Example (React)
+
+```js id="protected"
+if (!isAuthenticated) {
+  return <Navigate to="/login" />;
+}
+```
+
+---
+
+## 🔹 Better approach
+
+* Route guards
+* Middleware
+
+---
+
+# ⚡ 9. State Management
+
+---
+
+## 🔹 Store
+
+```js id="auth-state"
+{
+  user: {},
+  isAuthenticated: true
+}
+```
+
+---
+
+## 🔹 Tools
+
+* Context / Zustand
+* React Query for user data
+
+---
+
+# 🔐 10. Security Considerations (CRITICAL)
+
+---
+
+## 🔹 XSS Protection
+
+* Avoid storing tokens in localStorage
+
+---
+
+## 🔹 CSRF Protection
+
+* Use SameSite cookies
+* CSRF tokens if needed
+
+---
+
+## 🔹 HTTPS
+
+* Always secure communication
+
+---
+
+## 🔹 Token expiry
+
+* Short-lived access tokens
+
+---
+
+# 🧠 11. Advanced Features
+
+---
+
+## 🔹 Social Login
+
+* Google / Facebook OAuth
+
+---
+
+## 🔹 Multi-device sessions
+
+* Track sessions per device
+
+---
+
+## 🔹 Role-based access
+
+* Admin vs user
+
+---
+
+# 🚀 12. Scalability
+
+---
+
+## 🔹 Stateless auth
+
+* JWT avoids server sessions
+
+---
+
+## 🔹 BFF layer
+
+* Centralized auth handling
+
+---
+
+# ⚖️ 13. Tradeoffs
+
+---
+
+* JWT → scalable but harder to revoke
+* Cookies → secure but needs CSRF handling
+
+---
+
+# 🎯 Final Answer (Perfect)
+
+> “I would design authentication using JWT-based tokens with short-lived access tokens and long-lived refresh tokens. The frontend stores access tokens in memory and refresh tokens in HTTP-only cookies. API requests include the access token, and expired tokens are refreshed automatically. Protected routes ensure only authenticated users can access certain pages, and security is enforced using HTTPS, proper token storage, and CSRF protection.”
+
+---
+
+# 🔥 Follow-up Questions (Be Ready)
+
+---
+
+### ❓ “Why not localStorage?”
+
+* Vulnerable to XSS
+
+---
+
+### ❓ “How to handle token expiry?”
+
+* Refresh token flow
+
+---
+
+### ❓ “How to secure APIs?”
+
+* Authorization headers + validation
+
+---
+
+# 🚀 Pro Tip (Standout line)
+
+> “The key tradeoff in authentication design is between security and developer convenience, and I prioritize secure token storage and short-lived tokens.”
+
+---

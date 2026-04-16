@@ -1,0 +1,315 @@
+This is a **favorite deep-dive topic** in React interviews. Most people know *what* they do — fewer can explain **when and why to use each**, and even fewer understand the **real performance implications**.
+
+Let’s break it down properly 👇
+
+---
+
+# 🧠 Big Picture (Start here in interview)
+
+> All three are **performance optimization tools** used to **avoid unnecessary re-renders or recalculations**.
+
+* **`React.memo`** → prevents component re-render
+* **`useMemo`** → memoizes a value
+* **`useCallback`** → memoizes a function
+
+---
+
+# 🔁 1. React.memo
+
+## 🔹 What it does
+
+Wraps a component and **prevents re-render if props don’t change**
+
+```js
+const MyComponent = React.memo(({ value }) => {
+  console.log("Rendered");
+  return <div>{value}</div>;
+});
+```
+
+---
+
+## 🔹 How it works
+
+* Performs **shallow comparison** of props
+* If props are same → skips render
+
+---
+
+## ✅ When to use
+
+* Component is **pure**
+* Props rarely change
+* Component is expensive to render
+
+---
+
+## ❌ Problem
+
+```js
+<MyComponent onClick={() => {}} />
+```
+
+👉 New function every render → props change → re-render happens anyway
+
+---
+
+# ⚡ 2. useCallback
+
+## 🔹 What it does
+
+Memoizes a function so it **doesn’t get recreated every render**
+
+```js
+const handleClick = useCallback(() => {
+  console.log("clicked");
+}, []);
+```
+
+---
+
+## 🔹 Why needed?
+
+In React:
+
+```js
+const fn = () => {};
+```
+
+👉 New function is created **on every render**
+
+---
+
+## 🔹 Fix
+
+```js
+const fn = useCallback(() => {}, []);
+```
+
+👉 Same reference across renders
+
+---
+
+## ✅ When to use
+
+* Passing functions to **memoized components**
+* Preventing unnecessary child re-renders
+
+---
+
+## ❌ When NOT to use
+
+* If function is cheap
+* If not passed as prop
+
+---
+
+# 🧮 3. useMemo
+
+## 🔹 What it does
+
+Memoizes the **result of a computation**
+
+```js
+const expensiveValue = useMemo(() => {
+  return heavyCalculation(data);
+}, [data]);
+```
+
+---
+
+## 🔹 Why needed?
+
+Without it:
+
+```js
+const value = heavyCalculation(data);
+```
+
+👉 Runs on every render
+
+---
+
+## 🔹 With useMemo
+
+* Runs only when dependencies change
+
+---
+
+## ✅ When to use
+
+* Expensive computations
+* Derived data (filter, sort, map)
+
+---
+
+## ❌ When NOT to use
+
+* Simple calculations
+* Premature optimization
+
+---
+
+# 🔥 How They Work Together (VERY IMPORTANT)
+
+This is where most candidates fail — combine them:
+
+---
+
+## ❌ Problem Example
+
+```js
+const Child = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+  return <button onClick={onClick}>Click</button>;
+});
+
+function Parent() {
+  const handleClick = () => console.log("click");
+
+  return <Child onClick={handleClick} />;
+}
+```
+
+👉 Child STILL re-renders
+WHY? → new function reference
+
+---
+
+## ✅ Solution
+
+```js
+function Parent() {
+  const handleClick = useCallback(() => {
+    console.log("click");
+  }, []);
+
+  return <Child onClick={handleClick} />;
+}
+```
+
+👉 Now:
+
+* `useCallback` → stable function
+* `React.memo` → prevents re-render
+
+---
+
+# ⚖️ Key Differences
+
+| Feature  | React.memo        | useCallback         | useMemo             |
+| -------- | ----------------- | ------------------- | ------------------- |
+| Purpose  | Prevent re-render | Memoize function    | Memoize value       |
+| Works on | Component         | Function            | Value               |
+| Trigger  | Props change      | Dependencies change | Dependencies change |
+
+---
+
+# ⚠️ Important Tradeoff (Senior-level insight)
+
+👉 These hooks are **not free**
+
+They:
+
+* Add memory overhead
+* Add comparison cost
+
+---
+
+## ❌ Overuse Problem
+
+```js
+const x = useMemo(() => a + b, [a, b]);
+```
+
+👉 Useless optimization
+
+---
+
+## 🎯 Golden Rule
+
+> “Only use memoization when there is a measurable performance issue.”
+
+---
+
+# 🧠 Real-World Example (E-commerce)
+
+In something like Flipkart:
+
+---
+
+## Product List Page
+
+* Thousands of products
+* Filtering, sorting
+
+---
+
+### useMemo
+
+```js
+const filteredProducts = useMemo(() => {
+  return products.filter(...);
+}, [products]);
+```
+
+---
+
+### useCallback
+
+```js
+const handleAddToCart = useCallback((id) => {
+  addToCart(id);
+}, []);
+```
+
+---
+
+### React.memo
+
+```js
+const ProductCard = React.memo(({ product }) => { ... });
+```
+
+---
+
+👉 Result:
+
+* Faster rendering
+* Better UX
+
+---
+
+# 🎯 Perfect Interview Answer (Short)
+
+> “React.memo prevents unnecessary re-renders of components, useCallback memoizes function references to avoid re-creation, and useMemo caches computed values. Together, they help optimize performance by reducing unnecessary computations and re-renders, but should be used selectively due to their overhead.”
+
+---
+
+# 🔥 If Interviewer Pushes Further
+
+Be ready for:
+
+### ❓ “Why shallow comparison?”
+
+* Deep comparison is expensive
+
+---
+
+### ❓ “What causes unnecessary re-renders?”
+
+* New object/function references
+
+---
+
+### ❓ “How to debug re-renders?”
+
+* React DevTools profiler
+
+---
+
+# 🚀 Pro Tip (Say this to stand out)
+
+> “The biggest cause of unnecessary re-renders in React is unstable references, not heavy computations — which is why useCallback is often more critical than useMemo.”
+
+---

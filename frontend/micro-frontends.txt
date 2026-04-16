@@ -1,0 +1,239 @@
+Micro-frontends is one of those topics where a clear explanation + real-world tradeoffs can really impress in an HLD round. Let’s break it down properly.
+
+---
+
+# 🧠 What are Micro-frontends?
+
+👉 **Micro-frontends = splitting a frontend app into smaller, independently developed and deployed apps**
+
+Think of it like **microservices, but for UI**.
+
+Instead of one big React app:
+
+```id="monolith"
+/app
+  /product
+  /cart
+  /checkout
+  /search
+```
+
+You break it into:
+
+```id="micro"
+Product App   | Cart App   | Checkout App   | Search App
+(independent) | (independent) | (independent) | (independent)
+```
+
+Each is owned by a different team.
+
+---
+
+# 🔥 Why Micro-frontends?
+
+In large companies like Walmart or Flipkart:
+
+* Many teams work on frontend
+* One codebase becomes:
+
+  * Huge
+  * Hard to deploy
+  * Risky to change
+
+👉 Micro-frontends solve this by **decoupling teams and codebases**
+
+---
+
+# 🧩 Real Example (E-commerce)
+
+Imagine:
+
+* Product team → builds product page
+* Cart team → builds cart
+* Checkout team → builds payments
+
+Each team:
+
+* Has its own repo
+* Deploys independently
+* Uses its own tech if needed
+
+---
+
+# ⚙️ How It Works (Integration Approaches)
+
+There are multiple ways to combine micro-frontends:
+
+---
+
+## 1. Build-time Integration
+
+* All apps combined during build
+
+👉 ❌ Not truly independent
+
+---
+
+## 2. Run-time Integration (Most important)
+
+### 🔹 a) Module Federation (Webpack 5)
+
+👉 Most popular approach
+
+* Apps expose components
+* Host app loads them dynamically
+
+Example:
+
+```id="mf"
+ProductApp exposes <ProductPage />
+Shell loads it at runtime
+```
+
+---
+
+### 🔹 b) Iframe-based
+
+* Each app runs in iframe
+
+👉 ❌ Isolation good, UX bad
+
+---
+
+### 🔹 c) Route-based Integration
+
+```id="routes"
+ /product → Product App
+ /cart → Cart App
+```
+
+👉 Simple and common
+
+---
+
+# 🏗️ Architecture
+
+```id="arch"
+Browser → Shell App → Loads Micro-frontends
+```
+
+### Components:
+
+* **Shell / Container App**
+
+  * Handles routing
+  * Loads micro-frontends
+
+* **Micro-frontends**
+
+  * Independent apps
+
+---
+
+# 🚀 Benefits
+
+## 1. Independent Deployment
+
+* Deploy cart without touching product
+
+---
+
+## 2. Team Autonomy
+
+* Teams work independently
+
+---
+
+## 3. Scalability
+
+* Large apps become manageable
+
+---
+
+## 4. Tech Flexibility
+
+* One team uses React, another Vue (if needed)
+
+---
+
+# ⚠️ Challenges (IMPORTANT)
+
+## 1. Performance
+
+* Multiple bundles → larger load
+
+---
+
+## 2. Shared Dependencies
+
+* Multiple React versions → issues
+
+👉 Solution:
+
+* Shared libraries via Module Federation
+
+---
+
+## 3. Consistent UX
+
+* Different teams → inconsistent UI
+
+👉 Solution:
+
+* Design system / component library
+
+---
+
+## 4. State Sharing
+
+* Cart data needed across apps
+
+👉 Solutions:
+
+* Global state (Redux, events, URL, storage)
+
+---
+
+## 5. Routing Complexity
+
+* Coordinating routes across apps
+
+---
+
+# 🧠 When to Use Micro-frontends
+
+👉 Use when:
+
+* Large teams (10+ engineers)
+* Multiple domains (cart, search, product)
+* Independent releases needed
+
+---
+
+👉 Avoid when:
+
+* Small app
+* Small team
+* Simple UI
+
+---
+
+# 🔥 Micro-frontends + Your HLD (IMPORTANT)
+
+In your Flipkart design, you can say:
+
+> “At scale, we can break the frontend into micro-frontends like product, cart, and checkout, allowing independent teams to build and deploy features without impacting others.”
+
+---
+
+# 🎯 Interview-Ready Answer (Short Version)
+
+> “Micro-frontends extend the microservices concept to the frontend by splitting a large UI into smaller, independently deployable applications. This improves team autonomy, scalability, and deployment speed, but introduces challenges like shared dependencies, performance, and state management.”
+
+---
+
+# 🚀 Pro Tip (This line impresses)
+
+> “Micro-frontends trade simplicity for scalability — they’re beneficial at large scale but add complexity for smaller applications.”
+
+---

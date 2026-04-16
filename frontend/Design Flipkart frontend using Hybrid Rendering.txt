@@ -1,0 +1,302 @@
+You can almost **memorize this flow** 👇
+
+---
+
+# 🧠 1. Clarify Requirements (Always start here)
+
+Say something like:
+
+> “I’ll assume we’re building a large-scale e-commerce frontend like Flipkart with millions of users.”
+
+### Functional:
+
+* Homepage
+* Product listing (PLP)
+* Product detail (PDP)
+* Cart & checkout
+* Search
+* User account
+
+### Non-functional:
+
+* Fast load (Core Web Vitals)
+* SEO (critical for products)
+* High scalability
+* Works on low-end devices
+
+---
+
+# 🏗️ 2. High-Level Architecture
+
+Describe this clearly:
+
+```id="8bg2g3"
+Browser → CDN → Edge → Frontend Server (SSR) → Backend APIs
+```
+
+### Components:
+
+* **CDN** → serves static assets (SSG pages, JS, images)
+* **Frontend Server** → handles SSR
+* **APIs (BFF layer)** → aggregates backend services
+
+---
+
+# 🔥 3. Hybrid Rendering Strategy (CORE PART)
+
+Now bring in the main concept:
+
+> “I would use Hybrid Rendering, choosing rendering strategy per route.”
+
+---
+
+## 🏠 Homepage → **SSG**
+
+### Why:
+
+* Content doesn’t change every second
+* Needs fast load + SEO
+
+### How:
+
+* Pre-generate HTML at build time
+* Serve via CDN
+
+👉 Benefit:
+
+* ⚡ instant load
+* zero server cost
+
+---
+
+## 📦 Product Listing Page (PLP) → **SSG + CSR**
+
+### Why:
+
+* Base page can be static
+* Filters/sorting are dynamic
+
+### Approach:
+
+* Initial page → SSG
+* Filters → CSR API calls
+
+👉 Benefit:
+
+* Fast initial load + dynamic UX
+
+---
+
+## 📄 Product Detail Page (PDP) → **SSR**
+
+### Why:
+
+* SEO critical (Google indexing)
+* Price/stock changes frequently
+
+### Flow:
+
+```id="9fq2o8"
+Request → Server fetches product data → Render HTML → Send → Hydrate
+```
+
+👉 Benefit:
+
+* SEO + fresh data
+
+---
+
+## 🛒 Cart / Checkout → **CSR**
+
+### Why:
+
+* User-specific
+* No SEO needed
+* Highly interactive
+
+👉 Benefit:
+
+* Fast interactions
+* Less server load
+
+---
+
+## 🔍 Search Page → **SSR + CSR**
+
+### Why:
+
+* SEO for search results
+* Dynamic filtering
+
+👉 Approach:
+
+* Initial results → SSR
+* Filters/pagination → CSR
+
+---
+
+# ⚙️ 4. Frontend Architecture
+
+## 🔹 Component Design
+
+* Atomic design:
+
+  * Atoms → Button, Input
+  * Molecules → Product Card
+  * Organisms → Product Grid
+
+---
+
+## 🔹 Folder Structure
+
+Feature-based:
+
+```id="xg6bhq"
+/features
+  /product
+  /cart
+  /search
+/components
+/hooks
+/services
+```
+
+---
+
+## 🔹 State Management
+
+Split wisely:
+
+### Client State:
+
+* UI state (modals, toggles)
+
+### Server State:
+
+* Products, cart, orders
+
+👉 Use:
+
+* React Query (for caching, retries)
+* Minimal Redux (only if needed)
+
+---
+
+# 🔄 5. Data Flow (Important)
+
+Example: Product Page
+
+```id="ww3k7g"
+1. User requests /product/123
+2. SSR fetches product API
+3. HTML returned
+4. Hydration happens
+5. Further updates via CSR
+```
+
+---
+
+# 🚀 6. Performance Optimization
+
+This is where you stand out.
+
+## 🔹 Code Splitting
+
+* Load only required JS per page
+
+## 🔹 Lazy Loading
+
+* Images, components
+
+## 🔹 Virtualization
+
+* For large product lists
+
+## 🔹 CDN
+
+* Serve static assets globally
+
+## 🔹 Caching
+
+* API caching (React Query)
+* CDN caching (SSG pages)
+
+---
+
+# 📈 7. Scalability
+
+## 🔹 CDN-first approach
+
+* Most traffic served from CDN
+
+## 🔹 Reduce SSR usage
+
+* Only for critical pages
+
+## 🔹 BFF Layer
+
+* Aggregates APIs → reduces network calls
+
+---
+
+# 🔐 8. Security
+
+* XSS protection (sanitize inputs)
+* Secure cookies for auth
+* Avoid storing tokens in localStorage
+
+---
+
+# ⚙️ 9. CI/CD & Deployment
+
+* Build pipeline → generates SSG pages
+* Deploy via CDN
+* Canary releases for safe rollout
+
+---
+
+# ⚖️ 10. Tradeoffs (CRUCIAL)
+
+Say this clearly:
+
+* SSR improves SEO but increases server cost
+* SSG is fastest but not real-time
+* CSR is flexible but hurts initial load
+
+👉 Hence, Hybrid Rendering balances all
+
+---
+
+# 🎯 Final Closing Statement (Say this!)
+
+> “So overall, I would use Hybrid Rendering with SSG for static high-traffic pages, SSR for SEO-critical dynamic pages, and CSR for interactive user-specific flows to achieve optimal performance, scalability, and user experience.”
+
+---
+
+# 🚀 If Interviewer Pushes Further
+
+Be ready for:
+
+### ❓ “How would you reduce SSR load?”
+
+* Cache responses
+* Use ISR
+* Move to SSG where possible
+
+---
+
+### ❓ “What about low-end devices?”
+
+* Reduce JS bundle
+* Use lazy loading
+* Optimize images
+
+---
+
+### ❓ “How would you handle 1M users?”
+
+* CDN caching
+* Horizontal scaling
+* Minimize SSR
+
+---

@@ -1,0 +1,285 @@
+These two are **core performance topics** in frontend system design — especially for large-scale apps (like e-commerce). Interviewers expect you to connect them to **speed, scalability, and user experience**.
+
+Let’s break both down clearly 👇
+
+---
+
+# 🌍 1. CDN Usage (Content Delivery Network)
+
+## 🧠 What is a CDN?
+
+👉 A **CDN is a network of geographically distributed servers** that deliver content closer to users.
+
+Examples:
+
+* Images
+* JS bundles
+* CSS files
+* Static HTML (SSG)
+
+---
+
+## 🔹 Problem Without CDN
+
+```id="7hf5nb"
+User (India) → Server (US)
+```
+
+* High latency
+* Slow load times
+
+---
+
+## 🔹 With CDN
+
+```id="o8c5t2"
+User (India) → CDN (India edge server)
+```
+
+👉 Content served from **nearest location**
+
+---
+
+## ⚙️ How it works
+
+1. First request → CDN fetches from origin server
+2. Stores (caches) it
+3. Next users → served from CDN
+
+---
+
+## ⚡ Benefits
+
+### 1. Faster load times
+
+* Reduced latency (closer servers)
+
+---
+
+### 2. Scalability
+
+* Handles millions of users
+* Offloads traffic from backend
+
+---
+
+### 3. High availability
+
+* Multiple servers → fault tolerant
+
+---
+
+### 4. Reduced server cost
+
+* Less load on origin
+
+---
+
+## 🧩 What should go on CDN?
+
+* Images
+* Videos
+* JS bundles
+* CSS
+* Fonts
+* Static HTML (SSG pages)
+
+---
+
+## 🚀 Real-world Example
+
+In something like Flipkart:
+
+* Product images → CDN
+* Homepage (SSG) → CDN
+* JS bundles → CDN
+
+👉 Ensures fast loading across India
+
+---
+
+## 🎯 Interview Line
+
+> “I use CDN to serve static assets closer to users, reducing latency and improving scalability by offloading traffic from origin servers.”
+
+---
+
+# 📦 2. Asset Optimization
+
+## 🧠 What it means
+
+👉 Reducing size and improving delivery of frontend assets
+
+Assets:
+
+* JS
+* CSS
+* Images
+* Fonts
+
+---
+
+## 🔥 Why it matters
+
+Large assets = slow load
+
+```id="bigasset"
+1MB JS bundle → slow FCP, LCP
+```
+
+---
+
+# ⚙️ Techniques
+
+---
+
+## 🔹 1. Code Splitting
+
+Split JS into smaller chunks:
+
+```id="splitasset"
+main.js (200KB)
+product.js (100KB)
+cart.js (100KB)
+```
+
+👉 Load only what’s needed
+
+---
+
+## 🔹 2. Minification
+
+Remove unnecessary characters:
+
+```js id="minify"
+// before
+function add(a, b) {
+  return a + b;
+}
+
+// after
+function add(a,b){return a+b}
+```
+
+👉 Smaller file size
+
+---
+
+## 🔹 3. Compression
+
+Use:
+
+* Gzip
+* Brotli (better)
+
+👉 Reduces file size during transfer
+
+---
+
+## 🔹 4. Image Optimization
+
+* Use modern formats: **WebP, AVIF**
+* Resize images properly
+* Lazy load images
+
+```html id="lazyimg"
+<img src="image.webp" loading="lazy" />
+```
+
+---
+
+## 🔹 5. Tree Shaking
+
+Remove unused code:
+
+```id="tree"
+import { onlyUsedFn } from "library";
+```
+
+👉 Unused code removed from bundle
+
+---
+
+## 🔹 6. Font Optimization
+
+* Use only required font weights
+* Preload important fonts
+
+---
+
+## 🔹 7. Caching
+
+* Browser caching (Cache-Control headers)
+* Versioned assets (hashing)
+
+```id="cachefile"
+main.abc123.js
+```
+
+---
+
+# ⚡ Combined Impact
+
+| Optimization       | Impact                |
+| ------------------ | --------------------- |
+| CDN                | Faster delivery       |
+| Compression        | Smaller transfer size |
+| Code splitting     | Faster initial load   |
+| Image optimization | Better LCP            |
+
+---
+
+# 🧠 How They Work Together
+
+👉 Best practice:
+
+```id="flowcdn"
+Optimized assets → stored on CDN → served globally
+```
+
+---
+
+# 🎯 Real Example Flow
+
+User opens homepage:
+
+```id="flow"
+1. HTML from CDN
+2. JS bundle (optimized) from CDN
+3. Images (compressed WebP) from CDN
+```
+
+👉 Result:
+
+* Fast load
+* Good Core Web Vitals
+
+---
+
+# ⚠️ Common Mistakes
+
+## ❌ Huge JS bundle
+
+* No code splitting
+
+## ❌ Unoptimized images
+
+* Large JPEGs
+
+## ❌ No caching
+
+* Re-download every time
+
+---
+
+# 🎯 Interview Answer (Perfect)
+
+> “I use CDN to deliver static assets from edge locations to reduce latency and improve scalability. Alongside that, I optimize assets using techniques like code splitting, compression, image optimization, and caching to reduce bundle size and improve load performance.”
+
+---
+
+# 🚀 Pro Tip (Standout line)
+
+> “At scale, performance is less about computation and more about how efficiently assets are delivered to the user.”
+
+---

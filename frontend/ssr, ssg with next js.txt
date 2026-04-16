@@ -1,0 +1,266 @@
+In Next.js, SSR and SSG are **built-in features** — you don’t “set up” a server manually. You just choose the right data-fetching method per page.
+
+Let’s break both down clearly with **how to implement + when to use** 👇
+
+---
+
+# 🧠 Big Picture
+
+| Strategy | When HTML is generated |
+| -------- | ---------------------- |
+| SSR      | On every request       |
+| SSG      | At build time          |
+
+---
+
+# 🚀 1. SSR in Next.js
+
+## 🔹 What it means
+
+👉 HTML is generated **on every request**
+
+---
+
+## 🔹 How to implement
+
+Use:
+
+```js
+getServerSideProps
+```
+
+---
+
+## 🔹 Example
+
+```js
+export async function getServerSideProps(context) {
+  const res = await fetch('https://api.example.com/products');
+  const data = await res.json();
+
+  return {
+    props: { data },
+  };
+}
+
+export default function Page({ data }) {
+  return <div>{data.length} products</div>;
+}
+```
+
+---
+
+## 🔹 Flow
+
+```id="ssr-flow"
+Request → Server runs getServerSideProps → Fetch data → Generate HTML → Send to browser
+```
+
+---
+
+## ✅ When to use SSR
+
+* Data changes frequently
+* User-specific content (auth, dashboard)
+* SEO important
+
+---
+
+## ❌ Tradeoffs
+
+* Slower than SSG
+* Higher server load
+
+---
+
+# ⚡ 2. SSG in Next.js
+
+## 🔹 What it means
+
+👉 HTML is generated **at build time**
+
+---
+
+## 🔹 How to implement
+
+Use:
+
+```js
+getStaticProps
+```
+
+---
+
+## 🔹 Example
+
+```js
+export async function getStaticProps() {
+  const res = await fetch('https://api.example.com/products');
+  const data = await res.json();
+
+  return {
+    props: { data },
+  };
+}
+
+export default function Page({ data }) {
+  return <div>{data.length} products</div>;
+}
+```
+
+---
+
+## 🔹 Flow
+
+```id="ssg-flow"
+Build time → Fetch data → Generate HTML → Deploy → Serve via CDN
+```
+
+---
+
+## ✅ When to use SSG
+
+* Data rarely changes
+* Marketing pages
+* Blogs
+
+---
+
+## ❌ Tradeoffs
+
+* Data can become stale
+* Requires rebuild to update
+
+---
+
+# 🔄 3. Dynamic SSG (Important)
+
+If you have dynamic routes:
+
+```js
+/pages/product/[id].js
+```
+
+---
+
+## 🔹 Use:
+
+```js
+getStaticPaths
+```
+
+---
+
+## 🔹 Example
+
+```js
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { id: '1' } },
+      { params: { id: '2' } },
+    ],
+    fallback: 'blocking',
+  };
+}
+```
+
+---
+
+## 🔹 Combined with getStaticProps
+
+```js
+export async function getStaticProps({ params }) {
+  const res = await fetch(`https://api.example.com/products/${params.id}`);
+  const data = await res.json();
+
+  return {
+    props: { data },
+  };
+}
+```
+
+---
+
+# ⚡ 4. ISR (Bonus)
+
+You can enhance SSG with:
+
+```js
+revalidate: 60
+```
+
+👉 Regenerates page every 60 seconds
+
+---
+
+# 🧠 SSR vs SSG in Real World
+
+In something like Flipkart:
+
+---
+
+## 🔹 Use SSG
+
+* Homepage
+* Category pages
+
+---
+
+## 🔹 Use SSR
+
+* User dashboard
+* Personalized recommendations
+
+---
+
+## 🔹 Use ISR
+
+* Product pages (price updates occasionally)
+
+---
+
+# ⚖️ Summary
+
+| Feature        | SSR          | SSG            |
+| -------------- | ------------ | -------------- |
+| Speed          | Slower       | Very fast      |
+| Data freshness | Always fresh | Static         |
+| CDN            | Limited      | Full           |
+| Use case       | Dynamic data | Static content |
+
+---
+
+# 🎯 Interview Answer (Perfect)
+
+> “In Next.js, SSR is implemented using getServerSideProps, which runs on every request to generate fresh HTML, while SSG is implemented using getStaticProps, which generates HTML at build time. For dynamic routes, getStaticPaths is used, and ISR can be added to update static pages incrementally.”
+
+---
+
+# 🚀 Pro Tip (Standout line)
+
+> “Next.js allows mixing SSR, SSG, and ISR at a page level, enabling hybrid rendering strategies for optimal performance and scalability.”
+
+---
+
+# 🔥 If interviewer pushes further
+
+---
+
+### ❓ “What is fallback: blocking?”
+
+* Generates page on first request
+
+---
+
+### ❓ “Where are SSG pages stored?”
+
+* CDN
+
+---
+
+### ❓ “What about app router?”
+
+* Uses `fetch` with caching (`force-cache`, `no-store`)
+
+---

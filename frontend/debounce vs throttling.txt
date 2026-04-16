@@ -1,0 +1,107 @@
+⚡ 1. Debouncing
+🔹 What it is
+
+👉 Wait for user to stop doing something, then execute
+
+/**
+ * A custom hook that debounces any fast-triggering function. The function will only be invoked after
+ * the specified delay has elapsed since the last function call.
+ *
+ * @param {Function} callback - The function to debounce. This function can take any number of arguments.
+ * @param {number} delay - The amount of time (in milliseconds) to wait before invoking the callback after the last call.
+ * @returns {Function} debouncedFunction - A function that, when called, will reset its internal timer and
+ *                                         delay the execution of the `callback` function until after the `delay` period.
+ */
+export const useDebounceAction = (
+  callback: (...params: any[]) => void,
+  delay: number
+) => {
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+
+  const debouncedFunction = (...args: any[]) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      callback(...args);
+    }, delay);
+  };
+
+  // Clear the timeout when the component is unmounted or when delay changes
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [delay]);
+
+  return debouncedFunction;
+};
+
+
+import React, { useState } from 'react';
+import { TextInput, View } from 'react-native'; // or standard 'input' for web
+
+const SearchComponent = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // 1. Define the action you want to debounce (e.g., an API call)
+  const handleSearchApi = (query: string) => {
+    console.log("Searching API for:", query);
+    // fetch(`https://api.example.com/search?q=${query}`)
+  };
+
+  // 2. Initialize the hook
+  // We pass the API function and a 500ms delay
+  const debouncedSearch = useDebounceAction(handleSearchApi, 500);
+
+  const handleChange = (text: string) => {
+    // 3. Update the UI state immediately so the input feels responsive
+    setSearchTerm(text);
+
+    // 4. Call the debounced function
+    // This will only actually execute handleSearchApi after 500ms of "silence"
+    debouncedSearch(text);
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <TextInput
+        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        placeholder="Type to search..."
+        value={searchTerm}
+        onChangeText={handleChange}
+      />
+    </View>
+  );
+};
+
+
+🚀 2. Throttling
+🔹 What it is
+
+👉 Execute function at fixed intervals, no matter what
+
+
+function throttle(callback, limit) {
+  let inThrottle; // A boolean flag to track if we are in the "cooldown" period
+
+  return function (...args) {
+    // Only execute if we are NOT currently throttling
+    if (!inThrottle) {
+      callback(...args); // Execute the function
+      inThrottle = true;      // Turn on the cooldown flag
+
+      // Set a timer to turn the cooldown flag off after the limit passes
+      setTimeout(() => {
+        inThrottle = false;
+      }, limit);
+    }
+  };
+}
+
+// Usage:
+const handleScroll = throttle(() => console.log("Checking scroll position..."), 200);
+window.addEventListener("scroll", handleScroll);

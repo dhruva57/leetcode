@@ -1,0 +1,7 @@
+1. debounce vs throttling
+2. code for debounce
+3. how would u design a ecommerce like website
+4. optmisiation techniques using react
+5. poly-repo vs mono-repo
+6. how would you handle deployment in microservies
+7. Virtualization and its implementation

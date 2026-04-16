@@ -1,0 +1,145 @@
+import { useState } from "react";
+
+const ITEM_HEIGHT = 50;
+const TOTAL_ITEMS = 10000;
+const CONTAINER_HEIGHT = 500;
+
+export default function VirtualList() {
+  const [scrollTop, setScrollTop] = useState(0);
+
+  const startIndex = Math.floor(scrollTop / ITEM_HEIGHT);
+  const visibleCount = Math.ceil(CONTAINER_HEIGHT / ITEM_HEIGHT);
+
+  const items = [];
+
+  for (let i = startIndex; i < startIndex + visibleCount; i++) {
+    items.push(
+      <div
+        key={i}
+        style={{
+          position: "absolute",
+          top: i * ITEM_HEIGHT,
+          height: ITEM_HEIGHT,
+          borderBottom: "1px solid #ccc",
+        }}
+      >
+        Item {i}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      style={{
+        height: CONTAINER_HEIGHT,
+        overflowY: "auto",
+        position: "relative",
+      }}
+      onScroll={(e) => setScrollTop(e.target.scrollTop)}
+    >
+      <div
+        style={{
+          height: TOTAL_ITEMS * ITEM_HEIGHT,
+          position: "relative",
+        }}
+      >
+        {items}
+      </div>
+    </div>
+  );
+}
+
+This code is a classic implementation of a performance optimization technique known as **List Virtualization** (or "Windowing") in React. 
+
+Instead of rendering all 10,000 items into the DOM at once—which would severely slow down the browser and consume massive amounts of memory—this code only renders the items that are currently visible on the user's screen. 
+
+
+
+Here is a detailed, step-by-step breakdown of how this code works.
+
+---
+
+### 1. The Constants (The Blueprint)
+The component relies on three fixed measurements to calculate what should be visible:
+* `ITEM_HEIGHT = 50`: Every single row in the list is exactly 50 pixels tall.
+* `TOTAL_ITEMS = 10000`: The total number of records in your dataset.
+* `CONTAINER_HEIGHT = 500`: The viewable window (the outer box) is strictly 500 pixels tall.
+
+### 2. State and Scroll Tracking
+```javascript
+const [scrollTop, setScrollTop] = useState(0);
+```
+The `scrollTop` state tracks exactly how far down the user has scrolled within the container, measured in pixels. Whenever the user scrolls, the `onScroll` event on the outer `div` fires, updating this state and forcing the component to re-render.
+
+### 3. The Math (Calculating the "Window")
+This is the core logic of the virtualization. Based on the current scroll position, the component calculates exactly which slice of the 10,000 items should be rendered.
+
+* **`startIndex`:** `Math.floor(scrollTop / ITEM_HEIGHT)`
+    * If you've scrolled down `150px`, $150 \div 50 = 3$. Therefore, item index 3 is the first fully visible item at the top.
+* **`visibleCount`:** `Math.ceil(CONTAINER_HEIGHT / ITEM_HEIGHT)`
+    * $500 \div 50 = 10$. The container can fit exactly 10 items at a time. (`Math.ceil` ensures that if there are partial items showing, we render enough to cover the screen).
+
+### 4. Generating the DOM Nodes
+```javascript
+for (let i = startIndex; i < startIndex + visibleCount; i++) { ... }
+```
+Instead of mapping over an array of 10,000 items, the code uses a basic `for` loop to generate exactly 10 `div` elements. 
+
+**The Magic of Absolute Positioning:**
+Because we aren't rendering the *previous* items, our visible items would normally snap to the top of the container. To fix this, each item is given `position: "absolute"` and a dynamically calculated `top` value (`i * ITEM_HEIGHT`). 
+* *Example:* Item #50 isn't the 50th DOM node; it might be the 1st DOM node currently rendered, but we force it to sit exactly 2,500 pixels down from the top (`50 * 50`).
+
+### 5. The Scroll Containers
+The return statement consists of two carefully styled nested `div`s:
+
+* **The Outer Container (The Viewport):** * Set to exactly `500px` high with `overflowY: "auto"`. This creates the actual scrollbar you see on the screen.
+    * `position: "relative"` ensures the absolute positioning of the items inside is relative to this box.
+* **The Inner Container (The Fake Scroll Height):**
+    * This is an empty `div` given a massive height: `TOTAL_ITEMS * ITEM_HEIGHT` (10,000 * 50 = 500,000 pixels). 
+    * **Why?** This forces the browser to draw a scrollbar that *looks and behaves* exactly as if there were 10,000 items present, allowing the user to scrub the scrollbar smoothly from top to bottom.
+
+---
+
+### Why This is Important
+If you render 10,000 `<div>` tags simultaneously, the browser has to calculate the layout, paint, and manage memory for all of them. By using this virtualization script, **your browser only ever manages 10 to 11 DOM nodes at any given time**, no matter how far you scroll.
+
+> **Note on "Overscanning":** > While this implementation is fundamentally correct, it is highly basic. If you scroll very fast, you might see a blank white space before the next items render. Production-ready virtual lists (like `react-window` or `react-virtualized`) implement an **overscan**—rendering 2 or 3 invisible items above and below the visible viewport to act as a buffer and prevent flickering during fast scrolls.
+
+
+import React from 'react';
+import { FixedSizeList as List } from 'react-window';
+
+// 1. Create your dataset
+const TOTAL_ITEMS = 10000;
+const items = Array.from({ length: TOTAL_ITEMS }, (_, i) => `Item ${i}`);
+
+// 2. Define how a single row should render
+// react-window automatically passes 'index' and 'style' to this component
+const Row = ({ index, style }) => (
+  <div 
+    style={{ 
+      ...style, // CRITICAL: You must apply the style object provided by react-window
+      borderBottom: "1px solid #ccc",
+      display: "flex",
+      alignItems: "center",
+      paddingLeft: "16px"
+    }}
+  >
+    {items[index]}
+  </div>
+);
+
+// 3. Render the List component
+export default function VirtualList() {
+  return (
+    <List
+      height={500}           // The height of the scrollable container (CONTAINER_HEIGHT)
+      itemCount={TOTAL_ITEMS} // The total number of items in your list
+      itemSize={50}           // The height of each individual item (ITEM_HEIGHT)
+      width="100%"            // The width of the container
+      overscanCount={3}       // Optional: Renders extra items off-screen to prevent flickering
+    >
+      {Row}
+    </List>
+  );
+}
