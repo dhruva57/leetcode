@@ -1,0 +1,16 @@
+**The Situation:**
+"A perfect example of this was during my time at Exly. Shortly after I joined, COVID hit, and our company realized we had to rapidly pivot our entire business model to become a SaaS platform. Because this was a completely new direction for the business, the product requirements were incredibly ambiguous and changing almost daily as leadership tried to figure out what would actually resonate with the market."
+
+**The Task:**
+"As the lead frontend developer, my task was to build a complete frontend architecture from scratch and take this newly imagined product to market as quickly as possible. I had to deliver a working platform without knowing exactly what the final feature set would look like six months down the line."
+
+**The Action:**
+"To handle this extreme ambiguity, I focused on agility and architectural flexibility rather than waiting for perfect requirements:
+* **Pushed for an MVP:** Instead of trying to build the 'perfect' massive platform right away, I collaborated with the product team to define the absolute Minimum Viable Product (MVP). We agreed to build just enough to get the core offering into users' hands to evaluate actual usage.
+* **Built a Modular Foundation:** Because I knew requirements would change once users started interacting with the MVP, I architected the frontend to be highly modular from day one. I established a robust component library and clean state management. 
+* **Iterative Development:** Once the MVP was live, the changing requirements actually became our asset. As user feedback rolled in, I used those insights to iterate rapidly. Whenever a requirement changed, my modular architecture allowed us to swap out components or update business logic without breaking the entire application."
+
+**The Result:**
+"By embracing the unclear requirements and focusing on an MVP strategy, we successfully launched the new SaaS product in record time, which was critical for the company's survival during the pandemic. As the requirements finally stabilized based on real user data, I was able to scale that initial MVP into fully-fledged, highly successful frontend projects—specifically a B2B tool and a B2C customer-facing website that now supports thousands of users."
+
+***

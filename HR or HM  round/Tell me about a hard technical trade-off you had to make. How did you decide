@@ -1,0 +1,15 @@
+The Situation:
+"When we were architecting the new micro-frontend for Exly's revamped customer dashboard, we had a very tight deadline to get the new experience into our users' hands. As the lead frontend engineer, I had to define the core tech stack, and one of the biggest decisions was choosing our UI component strategy."
+
+The Task:
+"I had to make a hard trade-off between using a heavy, highly-opinionated component library like Material UI (MUI)—which our team was already somewhat familiar with—or adopting a modern, utility-first approach using Tailwind CSS and Shadcn."
+
+The Action (The Trade-off & Decision):
+"The trade-off was essentially short-term developer velocity versus long-term bundle performance and design flexibility. If we chose MUI, we could probably ship the MVP a week or two faster because everything is pre-built out of the box. However, I knew from our legacy monolith that overriding MUI's default styles to match our bespoke branding was a nightmare. It always led to massive CSS bloat, specificity clashes, and heavy initial bundle sizes.
+
+On the other hand, Shadcn and Tailwind required more upfront configuration. Shadcn isn't an npm package you just install; you actually copy the raw component code into your repository. The trade-off was taking on the burden of 'owning' the component code.
+
+I weighed this against our business goals. Since we were building a highly customized, user-facing B2C dashboard, performance and pixel-perfect branding were paramount. I chose the Tailwind and Shadcn route. To mitigate the short-term velocity hit, I personally took on the upfront architectural heavy lifting. I rapidly set up a shared UI library using Rollup and Storybook, pre-configuring our core Shadcn components with our design tokens so the rest of my team of 7 to 10 developers could just plug-and-play without worrying about the underlying Tailwind classes."
+
+The Result:
+"It was absolutely the right call. Taking that initial hit on setup time paid massive dividends. Because Tailwind removes unused CSS and Shadcn only includes the exact components we use, our new micro-frontend's bundle size was incredibly lean. Furthermore, our designers were thrilled because we never had to tell them 'we can't do that because the UI library doesn't support it.' It established a highly scalable, performant foundation that we still use across all our micro-frontends today."

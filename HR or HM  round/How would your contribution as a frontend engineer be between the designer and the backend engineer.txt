@@ -1,0 +1,11 @@
+As a frontend engineer, I see my role as the bridge between design intent and backend capabilities, ensuring that what we build is both user-friendly and technically robust.
+
+On the design side, I work closely with designers to understand not just the visuals but the intent behind the UX — things like user flows, edge cases, and interaction states. I also provide feedback early if something might impact performance, accessibility, or implementation complexity, and collaborate to find the right balance.
+
+On the backend side, I focus on defining clear API contracts and aligning on data structures upfront. This helps avoid integration issues later and ensures that the UI can be built efficiently. I also handle edge cases like loading states, error handling, and partial data scenarios to make the experience resilient.
+
+Where I think I add the most value is in connecting these two sides — for example, translating design requirements into scalable components, while also shaping backend APIs when needed to better support frontend needs.
+
+I also try to bring a system-level perspective by introducing shared component libraries and consistent patterns, so both design and engineering stay aligned as the product scales.
+
+Overall, my goal is to ensure that we deliver a seamless user experience while maintaining performance, scalability, and developer efficiency.

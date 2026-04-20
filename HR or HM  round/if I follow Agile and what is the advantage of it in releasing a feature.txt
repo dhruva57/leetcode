@@ -1,0 +1,11 @@
+Yes, I’ve been working in Agile environments, typically following Scrum with sprint planning, daily standups, and iterative releases.
+
+One of the biggest advantages of Agile in releasing features is that it allows us to break down large features into smaller, manageable increments and deliver value continuously rather than waiting for a big release.
+
+For example, instead of building an entire feature end-to-end and releasing it all at once, we define an MVP and ship it early. This helps us get real user feedback quickly and validate assumptions before investing more time in building additional functionality.
+
+Agile also improves collaboration across teams — since frontend, backend, design, and product are aligned in short cycles, it reduces miscommunication and allows us to adjust priorities based on changing requirements.
+
+From a frontend perspective, it also helps in managing risk. By releasing in smaller increments, we can catch performance issues, UI inconsistencies, or integration problems early rather than discovering them late in the cycle.
+
+Overall, Agile helps us move faster, reduce risk, and build features that are better aligned with user and business needs.

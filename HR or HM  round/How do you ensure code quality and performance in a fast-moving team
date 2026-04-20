@@ -1,0 +1,15 @@
+In a fast-moving team, I focus on building systems that enforce quality by default rather than relying on manual checks.
+
+First, I establish clear coding standards and shared conventions across the team — things like consistent folder structure, component patterns, and naming conventions. This reduces ambiguity and keeps the codebase maintainable as the team scales.
+
+Second, I put strong emphasis on code reviews, but I try to keep them efficient. I encourage smaller, incremental PRs and review code frequently instead of in large batches, which helps catch issues early without blocking progress.
+
+For performance, I make sure we measure before optimizing. For example, in our React Native app, we identified bottlenecks using profiling tools and then improved time-to-interactive significantly by optimizing rendering and reducing unnecessary work.
+
+I also encourage reusable patterns — like shared component libraries and utility functions — which not only improve consistency but also reduce the chance of bugs.
+
+On the tooling side, I rely on automated checks like linting, formatting, and basic CI validations to catch common issues early, so developers get quick feedback without waiting for reviews.
+
+Finally, I try to balance speed and quality by being pragmatic — for MVPs, we focus on delivering core functionality quickly, but we consciously plan for iterative improvements and technical debt cleanup in subsequent cycles.
+
+Overall, my approach is to create a culture and system where quality is built into the process, not something added at the end.

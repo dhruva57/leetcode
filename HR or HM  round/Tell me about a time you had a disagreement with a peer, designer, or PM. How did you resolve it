@@ -1,0 +1,17 @@
+The Situation:
+"At Exly, we were experiencing a major bottleneck during our frontend development cycles. The design handoffs looked great in Figma, but when engineering implemented the exact pixel values, the UI would constantly break or look misaligned in staging, especially across different screen sizes. This was leading to a frustrating loop of QA tickets and forcing us to constantly rewrite our CSS to fix ad-hoc styling issues."
+
+The Task:
+"I realized the root cause wasn't bad developers or bad designers; the problem was that we lacked a shared technical vocabulary. My goal was to bridge this gap between engineering and design to eliminate this 'QA ping-pong' and speed up our delivery."
+
+The Action:
+"Instead of just pushing back on individual Jira tickets, I set up a series of working sessions with the lead designer.
+
+Establishing Design Tokens: First, we audited the designs and replaced all the 'magic numbers' (random hex codes and pixel spacings) with strict Design Tokens—a standardized set of variables for typography, colors, and spacing.
+
+Building the Component Library: Using these tokens, I led the creation of a centralized UI component library.
+
+Implementing Storybook: To ensure both teams were always aligned, I deployed Storybook. This acted as our single source of truth. I explained to the design team that moving forward, their Figma components had to map exactly 1-to-1 with the coded components existing in our Storybook."
+
+The Result:
+"The impact was massive. Because designers were now building prototypes using the exact same constraints and components that engineering was using in the code, the UI discrepancies in staging virtually disappeared. Not only did we drastically reduce our frontend bug rate, but we also significantly improved the relationship and trust between the engineering and design teams.

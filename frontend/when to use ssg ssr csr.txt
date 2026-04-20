@@ -1,0 +1,151 @@
+This is one of those interview topics where people either ramble… or give a crisp, structured answer that stands out. Let’s aim for the second.
+
+---
+
+# 🧠 The core difference (anchor your answer here)
+
+* **SSR (Server-Side Rendering)**
+  → HTML generated **on every request**
+
+* **SSG (Static Site Generation)**
+  → HTML generated **at build time**
+
+---
+
+# 🎯 How to decide (the actual interview signal)
+
+Interviewers are looking for **trade-off thinking**, not definitions.
+
+### Ask yourself 3 questions:
+
+## 1️⃣ How often does the data change?
+
+* **Rarely changes** → SSG
+* **Changes frequently / real-time** → SSR
+
+👉 Example:
+
+* Blog → SSG
+* Stock prices dashboard → SSR
+
+---
+
+## 2️⃣ Is SEO important?
+
+* **Yes (needs indexing)** → SSR or SSG
+* **No (internal dashboard)** → CSR is fine
+
+👉 Both SSR & SSG are SEO-friendly, but:
+
+* SSG is faster
+* SSR is fresher
+
+---
+
+## 3️⃣ Can you precompute all pages?
+
+* **Yes** → SSG
+* **No (too many combinations / dynamic)** → SSR
+
+👉 Example:
+
+* 10 blog posts → SSG
+* Millions of product filters → SSR
+
+---
+
+# ⚖️ Decision table (use this in interviews)
+
+| Scenario              | Best Choice     | Why              |
+| --------------------- | --------------- | ---------------- |
+| Blog / Docs           | SSG             | Static + SEO     |
+| Marketing pages       | SSG             | Fast + cacheable |
+| Product listing (PLP) | SSG + CSR       | Hybrid           |
+| Product detail (PDP)  | SSG + ISR / SSR | Balance          |
+| User dashboard        | CSR / SSR       | Private data     |
+| Real-time feed        | SSR             | Fresh data       |
+
+---
+
+# 🧩 Real-world mapping
+
+### 🛒 E-commerce (Amazon/Flipkart style)
+
+#### Product Listing Page (PLP)
+
+* Use **SSG + CSR**
+* Reason:
+
+  * initial load fast
+  * filters handled client-side
+
+#### Product Detail Page (PDP)
+
+* Use:
+
+  * **SSG + ISR** (if products are many but not changing every second)
+  * OR **SSR** (if price/inventory changes frequently)
+
+---
+
+# 🔁 ISR (bridge between SSR & SSG)
+
+Don’t forget to mention this—interview bonus points.
+
+> **Incremental Static Regeneration (ISR)** = SSG + periodic updates
+
+```ts
+export async function getStaticProps() {
+  return {
+    props: { data },
+    revalidate: 60, // regenerate every 60s
+  };
+}
+```
+
+👉 Great when:
+
+* Data changes occasionally
+* You want **SSG performance + near-fresh data**
+
+---
+
+# 🧠 Strong interview answer (you can literally say this)
+
+> “I decide between SSR and SSG based on data freshness, scalability, and SEO requirements. If the data is mostly static and can be precomputed, I prefer SSG for performance and caching benefits. If the data is highly dynamic or user-specific, I use SSR to ensure freshness. In many real-world cases like e-commerce, I use a hybrid approach—SSG or ISR for initial render and CSR for interactions like filtering.”
+
+---
+
+# ⚠️ Common mistakes (call these out)
+
+* ❌ “SSR is always better for SEO”
+  → SSG is also SEO-friendly (and faster)
+
+* ❌ “SSG for everything”
+  → breaks with dynamic data / huge scale
+
+* ❌ Ignoring build time
+  → SSG with millions of pages = slow builds
+
+---
+
+# 🚀 Pro-level insight (this impresses interviewers)
+
+> “SSG shifts load to build time, SSR shifts load to request time.”
+
+* SSG → scalable, cheap, CDN-friendly
+* SSR → flexible, but higher server cost
+
+---
+
+# 🧭 Mental shortcut
+
+```
+Static + predictable → SSG  
+Dynamic + unpredictable → SSR  
+Mixed → Hybrid (SSG + CSR / ISR)
+```
+
+---
+
+If you want, I can give you **actual interview questions + ideal answers** on this topic (companies love twisting this into system design scenarios).

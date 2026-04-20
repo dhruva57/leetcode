@@ -1,0 +1,17 @@
+When approaching a problem, I follow a structured process to ensure clarity and effective execution.
+
+First, I focus on understanding the problem thoroughly — what exactly are we trying to solve, who the users are, and what success looks like. I try to clarify requirements and identify any edge cases early.
+
+Next, I break the problem down into smaller, manageable parts. This helps in isolating complexity and makes it easier to plan implementation steps.
+
+Then, I evaluate possible approaches and consider trade-offs — for example, simplicity vs scalability, speed vs maintainability — and choose an approach that fits the current context.
+
+Before jumping into full implementation, I often think in terms of an MVP or incremental solution so we can deliver value quickly and iterate.
+
+During implementation, I keep performance, reusability, and maintainability in mind, and I prefer building in small, testable units.
+
+Once the feature is built, I validate it — both functionally and from a user experience perspective — and monitor for any issues in production.
+
+Finally, I iterate based on feedback and continuously improve the solution.
+
+Overall, my approach is to combine clear problem understanding, structured breakdown, and iterative execution to deliver effective solutions.

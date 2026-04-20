@@ -1,0 +1,9 @@
+Over the next 2–3 years, I see myself growing into a stronger senior engineer who can not only deliver features but also take ownership of larger frontend systems and contribute more at an architectural level.
+
+So far, I’ve had good exposure to building products from scratch and scaling them, but I now want to work on systems operating at a much larger scale — where I can deepen my understanding of performance, reliability, and distributed frontend architectures.
+
+I also want to continue growing in terms of technical leadership — mentoring engineers, influencing design decisions, and helping drive best practices across teams.
+
+This role aligns well with that path because it involves building large-scale, multi-platform systems and working across teams to solve complex problems. The opportunity to work on high-impact systems and learn from experienced engineers here is exactly what I’m looking for at this stage.
+
+Overall, I see this as a natural next step where I can both contribute meaningfully and continue to grow in terms of scale, architecture, and leadership.

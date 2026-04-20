@@ -1,0 +1,48 @@
+Q. design a frontend monioring system.
+
+A. 
+ - monitoring user activity
+ - error  logging
+
+ monitoring: 
+  - Page load time
+   - FCP/LCP
+
+   API service: /trackevent
+   - type: error/event/
+   - category: 
+   userid: 
+   deviceId:
+   browserDetails:
+
+
+  API error ? axiosError
+  JS Error : 
+
+  logError(error) => {
+  }
+
+   error:
+   window.onError => API service
+   window.unhandledRejection => API service
+   Error boundary 
+
+   monitoring:
+   onScroll:  throttling 
+   observerIntersection: Observer.observe API service
+
+   addEventListener("click") -> API service
+
+
+
+ - alerting
+ - session record 
+ - secuirty purpose
+ - analytics (most frequent page/ least) : signuppage -> 
+ -  funnel
+ - bounce  rate 
+ page performance : LCP, FCP. 
+  - geaographic location of our audience / user details : mobile or desktop , 5G/Wifi/ low end device 
+
+ 
+ 

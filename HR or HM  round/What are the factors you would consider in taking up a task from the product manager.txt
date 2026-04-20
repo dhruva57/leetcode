@@ -1,0 +1,15 @@
+When taking up a task from a product manager, I try to evaluate it from both a product and technical perspective before committing.
+
+First, I focus on understanding the user and business impact — what problem are we solving, and how critical is it? This helps me prioritize effectively and align with overall goals.
+
+Next, I ensure the requirements are clear. I look for edge cases, user flows, and any ambiguity in the scope. If something isn’t clear, I prefer clarifying upfront rather than making assumptions later.
+
+From a technical standpoint, I assess feasibility and complexity — whether the feature fits well within the existing architecture, if there are any performance considerations, and what kind of state management or data flow it would require.
+
+I also look at dependencies — for example, backend APIs, design readiness, or third-party integrations — and whether those are available or need coordination with other teams.
+
+Another important factor is effort versus timeline. I try to break the task into smaller units, estimate realistically, and, if needed, suggest an MVP approach so we can deliver value faster and iterate.
+
+Finally, I also consider potential risks — like performance bottlenecks, scalability concerns, or integration challenges — and communicate those early so expectations are aligned.
+
+Overall, my goal is to ensure that before starting development, we have clarity on impact, scope, feasibility, and risks, so execution is smooth and predictable.

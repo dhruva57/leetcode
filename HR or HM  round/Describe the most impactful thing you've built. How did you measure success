@@ -1,0 +1,25 @@
+The Situation:
+"The most impactful thing I’ve built wasn't actually a new product feature, but rather a massive architectural optimization for Exly's core platform. As our application scaled and we rapidly added new B2B and B2C capabilities, our React codebase became severely bloated. Our initial JavaScript bundle size had ballooned to a massive 30 MB. For users on slower networks or mobile devices, the application felt unresponsive, and our bounce rates were suffering as a result."
+
+The Task:
+"I took ownership of this performance crisis. My task was to architect a solution to drastically reduce our initial payload and improve the overall user experience, without stripping away any of the complex features our product and business teams had just shipped."
+
+The Action:
+"I led a surgical, three-pronged optimization strategy across the frontend:
+
+Deep Bundle Auditing & Tree Shaking: I started by profiling our build to identify the heaviest dependencies. I implemented aggressive tree shaking, ripping out dead code and swapping out heavy, monolithic third-party libraries for modular alternatives where we only imported the exact functions we needed.
+
+Route-Level Code Splitting: The 30 MB bundle was downloading the entire application all at once. I re-architected our routing layer to implement strict code splitting. This ensured that when a user hit the login page, they were only downloading the code required for the login page, not the heavy dashboard components sitting behind the auth wall.
+
+Component Lazy Loading: For complex, heavy UI elements—like data-rich charts or large modals—I implemented React lazy loading. Those components were deferred and only fetched over the network exactly when the user interacted with them."
+
+The Result & How I Measured Success:
+"The technical result was immediate: we successfully slashed the initial bundle size from 30 MB down to under 5 MB.
+
+However, to truly measure the success of this project, I didn't just look at the network tab; I tracked our Core Web Vitals and business KPIs.
+
+Technical Measurement: By integrating performance monitoring, I measured a drastic reduction in our Time to Interactive (TTI) and Largest Contentful Paint (LCP). The app went from taking painfully long to load, to feeling near-instant.
+
+Business Measurement: By tracking our analytics, we saw that this optimization directly correlated with a significant drop in our bounce rates and an increase in user session lengths.
+
+Ultimately, it was my most impactful project because it radically improved the end-user experience while establishing a new engineering culture where performance was treated as a core product requirement."

@@ -1,0 +1,26 @@
+**The Situation:**
+"During my time at Exly, we had a major initiative to completely revamp the UI of our customer dashboard. At the time, our entire customer-facing platform was tightly coupled inside a massive Next.js monolith. The codebase was becoming heavy, build times were slowing down our development cycles, and the UI components were difficult to scale."
+
+**The Task:**
+"I saw this UI revamp as the perfect opportunity to modernize our architecture. My goal was to drive a transition away from the monolith to a more scalable, decoupled architecture using modern frontend tooling, without disrupting the existing user experience."
+
+**The Action & Technical Decisions:**
+"To execute this, I led the architectural decision to extract the new customer dashboard into a completely separate **micro-frontend repository**. I had to get buy-in from both engineering leadership and the product team. I did this by building a small Proof of Concept (PoC) and presenting a clear technical roadmap that highlighted the exact benefits of this new stack:
+
+* **Micro-frontend & Polyrepo over Monolith/Monorepo:** I explained that a micro-frontend would allow the dashboard team to deploy independently without risking the main website. I specifically advocated for a **polyrepo** approach over a monorepo because it enforces strict separation of concerns. In monorepos, it's too easy for developers to accidentally tightly couple code across projects; a polyrepo physically prevents this and keeps CI/CD pipelines lightweight and isolated.
+* **Vite over Webpack:** For the new React app, I chose Vite. I demonstrated to the team how Vite leverages native ES modules to provide blazing-fast Hot Module Replacement (HMR) and near-instant server starts, drastically improving our developer experience compared to Webpack's heavy bundling process.
+* **Zustand over Redux:** To handle state, I moved us away from our legacy Redux setup. I showed how Zustand provides a hook-based, minimalistic state management solution that eliminates the massive boilerplate of Redux (reducers, actions, and context providers) while remaining highly performant.
+* **Tailwind & Shadcn over Standard CSS & MUI:** For the UI layer, I advocated for Tailwind CSS to prevent the CSS bloat and specificity clashes we were facing. Instead of a heavy, highly opinionated library like Material UI (MUI), I introduced **Shadcn**. I explained to the design team that Shadcn gives us raw, accessible components whose code lives directly in our repo, giving us 100% control over the design system without the bundle-size penalty of MUI.
+
+**Cross-Repo Data Sharing (Rollup & Storybook):**
+To ensure consistency between the new micro-frontend and the legacy monolith, I also created a common utility and component library. 
+* I used **Rollup** to bundle this library because its advanced tree-shaking capabilities create incredibly tiny, optimized bundles perfect for shared packages. 
+* I integrated **Storybook** to serve as an isolated sandbox. This allowed our designers and developers to visually test and document components in isolation before they were consumed by either application.
+
+**The Nginx Deployment Strategy:**
+The biggest hurdle for buy-in was from the product team, who feared this separation would ruin the user experience or SEO. I collaborated closely with DevOps to solve this using **Nginx as a reverse proxy**. 
+* We configured Nginx so that our root domain (`shurufit.exlyapp.com`) continued to route traffic to the Next.js monolith server. 
+* However, any request specifically matching the dashboard path (`shurufit.exlyapp.com/eud/*`) was intercepted by Nginx and seamlessly proxied to our new Vite/React application. 
+
+**The Result:**
+"To the end-user, the transition was invisible—they just experienced a lightning-fast, beautifully revamped UI living on the exact same domain. Internally, it was a massive success. We reduced our build times, completely decoupled our deployment pipelines, and established a modern, highly efficient frontend stack that the team loved working in."

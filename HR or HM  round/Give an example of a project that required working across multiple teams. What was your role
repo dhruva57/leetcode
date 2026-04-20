@@ -1,0 +1,19 @@
+The Situation:
+"At Exly, we had a major 'LinkedIn-style' community feature on our long-term roadmap. However, the timeline suddenly changed drastically. A massive client onboarding became entirely dependent on this feature, meaning we had to accelerate the timeline and deliver it within a single quarter. The complexity was huge because it required synchronized development across our B2B web app, B2C web app, React Native mobile app, and the backend."
+
+The Task:
+"As the engineering lead for this initiative, my task was to figure out how to accelerate our delivery without burning out the developers or shipping buggy code across three different frontend platforms simultaneously."
+
+The Action:
+"I tackled this from both a product and an engineering execution standpoint:
+
+Aggressive Scoping: First, I sat down with the business and product teams. I negotiated the scope down to a strict MVP (Minimum Viable Product). We agreed on the absolute core functionalities needed to unblock the client, pushing the 'nice-to-have' features to a later quarter.
+
+Iterative 'Dark' Launches: Instead of attempting a risky 'big bang' release at the end of the quarter, I broke the architecture into smaller milestones. We utilized feature flags to do 'silent releases' to production. This allowed us to merge code safely without exposing half-finished features to the users.
+
+Micro-Management of PRs: To keep developer velocity high, I created a targeted daily technical sync just for this strike team, separate from our general scrum. More importantly, I enforced daily, bite-sized code reviews. Instead of waiting to review massive, 1,000-line pull requests at the end of the sprint, reviewing daily prevented merge conflicts and caught architectural drift instantly.
+
+Leading by Example: I deliberately front-loaded and completed my own heavy architectural tasks as quickly as possible. This freed up my bandwidth so I could spend the rest of the sprints pair-programming and removing blockers for the other developers."
+
+The Result:
+"Because we scoped aggressively and avoided end-of-sprint deployment bottlenecks through daily PR reviews and silent releases, we successfully shipped the community feature on time. The client successfully onboarded, and the iterative CI/CD approach we used became the new standard for how we handled high-pressure feature launches moving forward."

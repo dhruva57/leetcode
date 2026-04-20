@@ -1,0 +1,17 @@
+The Situation:
+"Early in our React Native journey at Exly, we made the mistake of focusing our development and testing entirely on Android for our initial MVP. When it came time to generate our iOS builds, we hit a massive wall. Several third-party libraries we had deeply integrated into our codebase were entirely Android-specific. This broke our iOS builds completely and caused an unexpected delay in our iOS launch schedule."
+
+The Task:
+"I needed to immediately unblock the iOS release, but more importantly, as a lead engineer, I needed to fix the underlying architectural flaw so our codebase wouldn't be held hostage by third-party library constraints in the future."
+
+The Action:
+"I tackled this in two phases:
+
+The Immediate Fix: First, I audited our dependencies, ripped out the Android-specific libraries, and replaced them with cross-platform equivalents to unblock the iOS build.
+
+The Architectural Fix: To ensure this never happened again, I introduced the Facade design pattern (or an abstraction layer) for all external dependencies. Instead of importing third-party libraries directly into our UI components all over the project, I created a centralized internal utility module. For example, our components would call our internal wrapper, and only that wrapper would communicate with the third-party package.
+
+The Result & What I Learned:
+"We successfully launched the iOS app, but the long-term result was a much more resilient codebase. Because of that abstraction layer, whenever a library became deprecated or we needed to swap packages later, we only had to update the code in one single file rather than refactoring 50 different UI components.
+
+The biggest lesson I took away from this failure was to never tightly couple external dependencies to business logic. I learned to always treat third-party packages as volatile and wrap them in our own abstraction layers from day one, and to always run parallel cross-platform builds in CI/CD rather than testing platforms sequentially."
